@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
     private GameObject possessed_object = null;
 
     private Rigidbody2D rb;
+    public bool game_running = false;
+    public bool game_paused = false;
 
     public LayerMask objectMask;
     public LayerMask wallMask;
@@ -29,31 +31,36 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Move();
-        SortObjects();
-
-        if (Input.GetKeyDown("space"))
+        if (game_running && !game_paused)
         {
-            if (possessed_object == null && can_possess_objects.Count() > 0)
+            Move();
+            SortObjects();
+
+            if (Input.GetKeyDown("space"))
             {
-                Possess();
+                if (possessed_object == null && can_possess_objects.Count() > 0)
+                {
+                    Possess();
+                }
+                else if (possessed_object != null)
+                {
+                    Despossess();
+                }
             }
-            else if (possessed_object != null)
+
+            if (Input.GetKeyDown("p") && possessed_object != null)
             {
-                Despossess();
+                Possessable possessed_script = possessed_object.GetComponent<Possessable>();
+                possessed_script.Interact();
             }
         }
-
-        if (Input.GetKeyDown("p") && possessed_object != null)
-        {
-            Possessable possessed_script = possessed_object.GetComponent<Possessable>();
-            possessed_script.Interact();
-        }
+        
     }
 
     private void Move()
     {
-        cur_speed = rb.linearVelocity;
+
+        if(possessed_object == null) cur_speed = rb.linearVelocity;
 
         float horizontal_input = Input.GetAxisRaw("Horizontal");
         float vertical_input = Input.GetAxisRaw("Vertical");
