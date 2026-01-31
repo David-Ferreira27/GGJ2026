@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     private Vector2 cur_speed = Vector2.zero;
     private float max_speed = 5.0f;
     private float input_force = 15.0f;
-    private float friction = 8.0f;
+    private float friction = 3.0f;
 
 
     public List<GameObject> can_possess_objects = new List<GameObject>();
