@@ -38,6 +38,8 @@ public class Monster : MonoBehaviour
 		bool newaggro = false;
 		float nrays = 9f;
 		float rayangl = 8f;
+		float offset = 0.15f;
+		RaycastHit2D ray;
 		if (!aggro)
 		{
 			for (float i = 0f; i < nrays; i++)
@@ -45,7 +47,7 @@ public class Monster : MonoBehaviour
 				float rayrad = (angl + rayangl * (i - nrays / 2f)) * Mathf.Deg2Rad;
 				Vector2 d = new Vector2((float)Mathf.Cos(rayrad), (float)Mathf.Sin(rayrad));
 				d.Normalize();
-				RaycastHit2D ray = Physics2D.Raycast(gameObject.transform.position, d, 999f);
+				ray = Physics2D.Raycast(gameObject.transform.position + new Vector3((float)Mathf.Cos(rad) * offset, (float)Mathf.Sin(rad), 0f) * offset, d, 999f);
 				if (ray.collider != null && ray.collider.gameObject.tag == "Player")
 				{
 					newaggro = true;
@@ -57,11 +59,12 @@ public class Monster : MonoBehaviour
 		{
 			Vector2 d = new Vector2((float)Mathf.Cos(rad), (float)Mathf.Sin(rad));
 			d.Normalize();
-			RaycastHit2D ray = Physics2D.Raycast(gameObject.transform.position, d, 999f);
+			ray = Physics2D.Raycast(gameObject.transform.position + new Vector3((float)Mathf.Cos(rad) * offset, (float)Mathf.Sin(rad) * offset, 0f), d, 999f);
 			if (ray.collider != null && ray.collider.gameObject.tag == "Player")
 			{
 				newaggro = true;
 			}
+			
 		}
 
 		aggro = newaggro;
