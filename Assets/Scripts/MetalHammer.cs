@@ -1,7 +1,14 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class MetalHammer : MonoBehaviour
+public class MetalHammer : MonoBehaviour, Possessable
 {
+
+    bool is_near_water_pipe = false;
+    
+    public List<GameObject> water_pipe;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -14,8 +21,24 @@ public class MetalHammer : MonoBehaviour
         
     }
 
-    void Action()
+    public void Interact()
     {
-        
+        if (is_near_water_pipe)
+        {
+            foreach(GameObject wp in water_pipe)
+            {
+                wp.GetComponent<WaterPipe>().ReleaseWater();   
+            }
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.GetComponent<WaterPipe>() != null){is_near_water_pipe = true;}
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.GetComponent<WaterPipe>() != null){is_near_water_pipe = false;}
     }
 }
