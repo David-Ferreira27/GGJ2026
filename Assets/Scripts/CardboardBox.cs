@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class Shelf : MonoBehaviour, Possessable
+public class CardboardBox : MonoBehaviour, Possessable
 {
 
-    public GameObject key;
+    public GameObject tools_box;
     public float var = 1.0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -20,10 +20,12 @@ public class Shelf : MonoBehaviour, Possessable
 
     public void Interact()
     {
-        if (!key.activeSelf)
+        if (!tools_box.activeSelf)
         {
-            key.SetActive(true);
-            key.transform.position = new Vector3 (gameObject.transform.position.x, gameObject.transform.position.y - 1, 0);   
+            tools_box.SetActive(true);
+            tools_box.transform.position = new Vector3 (gameObject.transform.position.x - 1, gameObject.transform.position.y, 0);
         }
     }
+
+    
 }

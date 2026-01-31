@@ -29,6 +29,12 @@ public class Player : MonoBehaviour
         {
             not_again = false;
         }
+
+        if (Input.GetKeyDown("p") && possessed_object != null)
+        {
+            Possessable possessed_script = possessed_object.GetComponent<Possessable>();
+            possessed_script.Interact();
+        }
     }
 
     private void Move()
