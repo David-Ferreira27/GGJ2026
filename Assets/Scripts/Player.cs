@@ -119,6 +119,7 @@ public class Player : MonoBehaviour
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
         possessed_object = can_possess_objects[0];
+        possessed_object.tag = "Player";
         rb.transform.position = new Vector2(-100, 0);
 
         rb.linearVelocity = Vector2.zero;
@@ -140,7 +141,8 @@ public class Player : MonoBehaviour
         cur_speed = Vector2.zero;
 
         possessed_object_rb.linearVelocity = Vector2.zero;
-        possessed_object = null;
+		possessed_object.tag = "possessable";
+		possessed_object = null;
 
     }
 
