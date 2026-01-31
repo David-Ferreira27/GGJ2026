@@ -17,7 +17,8 @@ public class Player : MonoBehaviour
 
     private Rigidbody2D rb;
 
-    public LayerMask obstacleMask;
+    public LayerMask objectMask;
+    public LayerMask wallMask;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -166,18 +167,27 @@ public class Player : MonoBehaviour
     private void DecideDirection(Rigidbody2D object_rb, float startDistance)
     {
         float distance = startDistance;
-        Vector2[] directions = { Vector2.down, Vector2.up, Vector2.left, Vector2.right };
+        List<Vector2> directions = new List<Vector2>(){ Vector2.down, Vector2.up, Vector2.left, Vector2.right };
         bool placed = false;
 
         Collider2D playerCollider = GetComponent<BoxCollider2D>();
 
         while (!placed)
         {
+            List<Vector2> toRemove = new List<Vector2>();
+
             foreach (Vector2 dir in directions)
             {
                 Vector2 newPos = (Vector2)object_rb.position + dir * distance;
 
-                if (CanPlaceAt(newPos, playerCollider))
+
+                if (CanPlaceAt(newPos, playerCollider) == "Wall")
+                {
+                    toRemove.Add(dir);
+                    
+                }
+
+                if (CanPlaceAt(newPos, playerCollider) == "Free")
                 {
                     rb.transform.position = newPos;
                     placed = true;
@@ -185,7 +195,12 @@ public class Player : MonoBehaviour
                 }
             }
 
-            distance += 0.2f;
+            foreach (Vector2 dir in toRemove)
+            {
+                directions.Remove(dir);
+            }
+
+            distance += 0.1f;
 
             if (distance > 10f)
             {
@@ -195,11 +210,17 @@ public class Player : MonoBehaviour
         }
     }
 
-    private bool CanPlaceAt(Vector2 position, Collider2D colliderToCheck)
+    private string CanPlaceAt(Vector2 position, Collider2D colliderToCheck)
     {
         
-        Collider2D hit = Physics2D.OverlapBox(position, colliderToCheck.bounds.size, 0f, obstacleMask);
-        return hit == null;
+        Collider2D hitWall = Physics2D.OverlapBox(position, colliderToCheck.bounds.size, 0f, wallMask);
+        if (hitWall != null) return "Wall";
+
+        Collider2D hitObject = Physics2D.OverlapBox(position, colliderToCheck.bounds.size, 0f, objectMask);
+        if (hitObject != null) return "Object";
+
+        else return "Free";
+
     }
 
 }

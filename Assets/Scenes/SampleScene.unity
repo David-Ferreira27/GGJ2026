@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 49635709}
   - component: {fileID: 49635712}
   - component: {fileID: 49635713}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CardboardBox
   m_TagString: possessable
   m_Icon: {fileID: 0}
@@ -311,7 +311,7 @@ GameObject:
   - component: {fileID: 83781727}
   - component: {fileID: 83781726}
   - component: {fileID: 83781728}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WaterPipe1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -464,7 +464,7 @@ GameObject:
   - component: {fileID: 93761860}
   - component: {fileID: 93761861}
   - component: {fileID: 93761862}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Key
   m_TagString: possessable
   m_Icon: {fileID: 0}
@@ -835,7 +835,7 @@ Transform:
   m_GameObject: {fileID: 125887093}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.00000026635826, y: 5, z: 0}
+  m_LocalPosition: {x: 0.11, y: 5.24, z: 0}
   m_LocalScale: {x: 20.2831, y: 1.5725, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -867,7 +867,7 @@ Transform:
   m_GameObject: {fileID: 377179723}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.88, y: 4.11, z: 0}
+  m_LocalPosition: {x: 5.88, y: 4.12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -915,7 +915,7 @@ GameObject:
   - component: {fileID: 459212006}
   - component: {fileID: 459212005}
   - component: {fileID: 459212004}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ToolsBox
   m_TagString: possessable
   m_Icon: {fileID: 0}
@@ -1716,7 +1716,7 @@ Transform:
   m_GameObject: {fileID: 1369247380}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 9, y: 2.0000002, z: 0}
+  m_LocalPosition: {x: 9.17, y: 2.04, z: 0}
   m_LocalScale: {x: 20.2831, y: 1.5725, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1829,9 +1829,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   can_possess_objects: []
-  obstacleMask:
+  objectMask:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 128
+  wallMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!61 &1370533444
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2118,7 +2121,7 @@ GameObject:
   - component: {fileID: 1621307624}
   - component: {fileID: 1621307623}
   - component: {fileID: 1621307625}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WaterPipe2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2270,7 +2273,7 @@ GameObject:
   - component: {fileID: 1795592073}
   - component: {fileID: 1795592076}
   - component: {fileID: 1795592077}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Shelf
   m_TagString: possessable
   m_Icon: {fileID: 0}
@@ -2541,7 +2544,7 @@ GameObject:
   - component: {fileID: 1993233717}
   - component: {fileID: 1993233721}
   - component: {fileID: 1993233722}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MetalHammer
   m_TagString: possessable
   m_Icon: {fileID: 0}
