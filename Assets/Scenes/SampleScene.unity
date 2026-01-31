@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 49635709}
   - component: {fileID: 49635712}
   - component: {fileID: 49635713}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: CardboardBox
   m_TagString: possessable
   m_Icon: {fileID: 0}
@@ -311,7 +311,7 @@ GameObject:
   - component: {fileID: 83781727}
   - component: {fileID: 83781726}
   - component: {fileID: 83781728}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: WaterPipe1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -464,7 +464,7 @@ GameObject:
   - component: {fileID: 93761860}
   - component: {fileID: 93761861}
   - component: {fileID: 93761862}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Key
   m_TagString: possessable
   m_Icon: {fileID: 0}
@@ -835,7 +835,7 @@ Transform:
   m_GameObject: {fileID: 125887093}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.11, y: 5.24, z: 0}
+  m_LocalPosition: {x: -0.00000026635826, y: 5, z: 0}
   m_LocalScale: {x: 20.2831, y: 1.5725, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -867,7 +867,7 @@ Transform:
   m_GameObject: {fileID: 377179723}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.88, y: 4.12, z: 0}
+  m_LocalPosition: {x: 5.88, y: 4.11, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -915,7 +915,7 @@ GameObject:
   - component: {fileID: 459212006}
   - component: {fileID: 459212005}
   - component: {fileID: 459212004}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: ToolsBox
   m_TagString: possessable
   m_Icon: {fileID: 0}
@@ -1716,7 +1716,7 @@ Transform:
   m_GameObject: {fileID: 1369247380}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 9.17, y: 2.04, z: 0}
+  m_LocalPosition: {x: 9, y: 2.0000002, z: 0}
   m_LocalScale: {x: 20.2831, y: 1.5725, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1789,9 +1789,9 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -2135585597343286014, guid: 5aa8b770bc43046bc8d993d0d5b7f4a5, type: 3}
-  m_Color: {r: 0.46938148, g: 0.011347434, b: 0.8018868, a: 1}
+  m_SortingOrder: 99
+  m_Sprite: {fileID: -1500434286138515679, guid: 7669cfcc66d0f4340bd35082621685a0, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1831,10 +1831,10 @@ MonoBehaviour:
   can_possess_objects: []
   objectMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0
   wallMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
 --- !u!61 &1370533444
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1869,17 +1869,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.0024504215, y: -0.11762111}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.8828125, y: 1}
+    oldSize: {x: 0.92, y: 0.86}
     newSize: {x: 0.8828125, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.8828125, y: 1}
+  m_Size: {x: 0.495643, y: 0.50011027}
   m_EdgeRadius: 0
 --- !u!58 &1370533445
 CircleCollider2D:
@@ -1929,9 +1929,9 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 0.8828125
+  m_Mass: 0.24787615
   m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_AngularDamping: 0.2
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -1943,7 +1943,7 @@ Rigidbody2D:
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 4
+  m_Constraints: 0
 --- !u!1 &1578764344
 GameObject:
   m_ObjectHideFlags: 0
@@ -2121,7 +2121,7 @@ GameObject:
   - component: {fileID: 1621307624}
   - component: {fileID: 1621307623}
   - component: {fileID: 1621307625}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: WaterPipe2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2273,7 +2273,7 @@ GameObject:
   - component: {fileID: 1795592073}
   - component: {fileID: 1795592076}
   - component: {fileID: 1795592077}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Shelf
   m_TagString: possessable
   m_Icon: {fileID: 0}
@@ -2544,7 +2544,7 @@ GameObject:
   - component: {fileID: 1993233717}
   - component: {fileID: 1993233721}
   - component: {fileID: 1993233722}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: MetalHammer
   m_TagString: possessable
   m_Icon: {fileID: 0}
