@@ -2,7 +2,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MiddleStatueBase : MonoBehaviour
+public class MiddleStatueBase : MonoBehaviour, Possessable
 {
 
     private int active_statue_parts = 0;
@@ -16,6 +16,11 @@ public class MiddleStatueBase : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        
+    }
+
+    public void Interact()
     {
         
     }
