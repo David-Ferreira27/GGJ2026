@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class Key3 : MonoBehaviour, Possessable
+public class Chair : MonoBehaviour, Possessable
 {
-	bool is_near_door = false;
-	public GameObject door;
+	bool is_near_window = false;
+	public GameObject window;
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
@@ -19,19 +19,19 @@ public class Key3 : MonoBehaviour, Possessable
 
 	public void Interact()
 	{
-		if (is_near_door)
+		if (is_near_window)
 		{
-			door.SetActive(false);
+			window.GetComponent<Window>().BreakWindow();
 		}
 	}
 
 	void OnTriggerEnter2D(Collider2D collision)
 	{
-		if (collision.name == "Door_Up") { is_near_door = true; }
+		if (collision.name == "Window") { is_near_window = true; }
 	}
 
 	void OnTriggerExit2D(Collider2D collision)
 	{
-		if (collision.name == "Door_Up") { is_near_door = false; }
+		if (collision.name == "Window") { is_near_window = false; }
 	}
 }
