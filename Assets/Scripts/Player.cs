@@ -129,7 +129,7 @@ public class Player : MonoBehaviour
 
     }
 
-    private void Despossess()
+    public void Despossess()
     {
         gameObject.GetComponent<BoxCollider2D>().enabled = true;
         gameObject.GetComponent<SpriteRenderer>().enabled = true;
