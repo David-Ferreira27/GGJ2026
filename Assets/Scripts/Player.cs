@@ -1,18 +1,23 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class Player : MonoBehaviour
 {
 
-    private Vector2 cur_speed = new Vector2(0, 0);
+    private Vector2 cur_speed = Vector2.zero;
     private float max_speed = 5.0f;
     private float input_force = 15.0f;
     private float friction = 8.0f;
 
-    private bool not_again = false;
 
-    private GameObject possessed_object;
+    public List<GameObject> can_possess_objects = new List<GameObject>();
+    private GameObject possessed_object = null;
 
     private Rigidbody2D rb;
+
+    public LayerMask obstacleMask;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -24,11 +29,20 @@ public class Player : MonoBehaviour
     void Update()
     {
         Move();
+        SortObjects();
 
-        if (Input.GetKeyUp("space"))
+        if (Input.GetKeyDown("space"))
         {
-            not_again = false;
+            if (possessed_object == null && can_possess_objects.Count() > 0)
+            {
+                Possess();
+            }
+            else if (possessed_object != null)
+            {
+                Despossess();
+            }
         }
+
     }
 
     private void Move()
@@ -42,14 +56,30 @@ public class Player : MonoBehaviour
 
         if (horizontal_input == 0)
         {
-            if (cur_speed.x > 0) cur_speed.x -= friction * Time.deltaTime;
-            else cur_speed.x += friction * Time.deltaTime;
+            if (cur_speed.x > 0)
+            {
+                if (cur_speed.x > friction * Time.deltaTime) cur_speed.x -= friction * Time.deltaTime;
+                else cur_speed.x = 0f;
+            }
+            else
+            {
+                if (cur_speed.x < - friction * Time.deltaTime) cur_speed.x += friction * Time.deltaTime;
+                else cur_speed.x = 0f;
+            }
         }
 
         if (vertical_input == 0)
         {
-            if (cur_speed.y > 0) cur_speed.y -= friction * Time.deltaTime;
-            else cur_speed.y += friction * Time.deltaTime;
+            if (cur_speed.y > 0)
+            {
+                if (cur_speed.y > friction * Time.deltaTime) cur_speed.y -= friction * Time.deltaTime;
+                else cur_speed.y = 0f;
+            }
+            else
+            {
+                if (cur_speed.y < -friction * Time.deltaTime) cur_speed.y += friction * Time.deltaTime;
+                else cur_speed.y = 0f;
+            }
         }
 
         if (cur_speed.x > max_speed) cur_speed.x = max_speed;
@@ -61,7 +91,6 @@ public class Player : MonoBehaviour
         {
             Rigidbody2D possessed_object_rb = possessed_object.GetComponent<Rigidbody2D>();
             possessed_object_rb.linearVelocity = cur_speed;
-            rb.position = possessed_object_rb.position;
         }
         else
         {
@@ -71,32 +100,101 @@ public class Player : MonoBehaviour
 
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void SortObjects()
+    {
+        can_possess_objects.Sort((a, b) =>
+        Vector3.Distance(transform.position, a.transform.position)
+        .CompareTo(Vector3.Distance(transform.position, b.transform.position))
+    );
+    }
+
+    private void Possess()
+    {
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        possessed_object = can_possess_objects[0];
+        rb.transform.position = new Vector2(-100, 0);
+
+        rb.linearVelocity = Vector2.zero;
+        cur_speed = Vector2.zero;
+
+        can_possess_objects.Clear();
+
+    }
+
+    private void Despossess()
+    {
+        gameObject.GetComponent<BoxCollider2D>().enabled = true;
+        gameObject.GetComponent<SpriteRenderer>().enabled = true;
+
+        Rigidbody2D possessed_object_rb = possessed_object.GetComponent<Rigidbody2D>();
+        DecideDirection(possessed_object_rb, 0.5f);
+
+        rb.linearVelocity = Vector2.zero;
+        cur_speed = Vector2.zero;
+
+        possessed_object_rb.linearVelocity = Vector2.zero;
+        possessed_object = null;
+
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        if (collision.CompareTag("possessable") && Input.GetKey("space") && ! not_again)
+        if (collision.CompareTag("possessable") && possessed_object == null)
         {
-            not_again = true;
 
-            if (possessed_object == null)
-            {
-                gameObject.GetComponent<BoxCollider2D>().enabled = false;
-                gameObject.GetComponent<SpriteRenderer>().enabled = false;
-                possessed_object = collision.gameObject;
-                rb.transform.position = new Vector3(possessed_object.transform.position.x , possessed_object.transform.position.y, 1);
-            }
-            else
-            {
-                gameObject.GetComponent<BoxCollider2D>().enabled = true;
-                gameObject.GetComponent<SpriteRenderer>().enabled = true;
-                rb.transform.position = new Vector3(possessed_object.transform.position.x, possessed_object.transform.position.y - 1, -1);
-                Rigidbody2D possessed_object_rb = possessed_object.GetComponent<Rigidbody2D>();
-                possessed_object_rb.linearVelocity = new Vector2(0, 0);
-                possessed_object_rb.angularVelocity = 0;
-                possessed_object = null;
-            }
-
-            cur_speed = new Vector2(0, 0);
+            can_possess_objects.Add(collision.gameObject);
         }
     }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+
+        if (collision.CompareTag("possessable") && possessed_object == null)
+        {
+
+            can_possess_objects.Remove(collision.gameObject);
+        }
+    }
+
+    private void DecideDirection(Rigidbody2D object_rb, float startDistance)
+    {
+        float distance = startDistance;
+        Vector2[] directions = { Vector2.down, Vector2.up, Vector2.left, Vector2.right };
+        bool placed = false;
+
+        Collider2D playerCollider = GetComponent<BoxCollider2D>();
+
+        while (!placed)
+        {
+            foreach (Vector2 dir in directions)
+            {
+                Vector2 newPos = (Vector2)object_rb.position + dir * distance;
+
+                if (CanPlaceAt(newPos, playerCollider))
+                {
+                    rb.transform.position = newPos;
+                    placed = true;
+                    break;
+                }
+            }
+
+            distance += 0.2f;
+
+            if (distance > 10f)
+            {
+                Debug.LogWarning("DecideDirection: no free space found for player!");
+                break;
+            }
+        }
+    }
+
+    private bool CanPlaceAt(Vector2 position, Collider2D colliderToCheck)
+    {
+        
+        Collider2D hit = Physics2D.OverlapBox(position, colliderToCheck.bounds.size, 0f, obstacleMask);
+        return hit == null;
+    }
+
 }
