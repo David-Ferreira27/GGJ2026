@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Key3 : MonoBehaviour, Possessable
+public class MuseumStaffCard : MonoBehaviour, Possessable
 {
 	bool is_near_door = false;
 	public GameObject door;
@@ -27,11 +27,11 @@ public class Key3 : MonoBehaviour, Possessable
 
 	void OnTriggerEnter2D(Collider2D collision)
 	{
-		if (collision.name == "Door_Up") { is_near_door = true; }
+		if (collision.name == "Door_Exit") { is_near_door = true; }
 	}
 
 	void OnTriggerExit2D(Collider2D collision)
 	{
-		if (collision.name == "Door_Up") { is_near_door = false; }
+		if (collision.name == "Door_Exit") { is_near_door = false; }
 	}
 }

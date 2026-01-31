@@ -12,6 +12,7 @@ public class Chicken : MonoBehaviour, Possessable
     public List<GameObject> ground_bones;
     private List<bool> attached_bones = new List<bool>(){false,false,false};
     public GameObject key3;
+    public GameObject shelf2;
     public float var = 1.0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -31,7 +32,7 @@ public class Chicken : MonoBehaviour, Possessable
 
         if(attached_bones[0] && attached_bones[1])
         {
-            //add code to open drawer for museum meber card
+            shelf2.GetComponent<Shelf2>().interactable = true;
         }
     }
 

@@ -7,6 +7,7 @@ public class MiddleStatueBase : MonoBehaviour, Possessable
 
     private int active_statue_parts = 0;
     public bool all_active = false;
+    public GameObject shelf2;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -31,8 +32,8 @@ public class MiddleStatueBase : MonoBehaviour, Possessable
 
         if (active_statue_parts == 4)
         {
-            //open door
             all_active = true;
+            shelf2.GetComponent<Shelf2>().interactable = true;
         }
     }
 

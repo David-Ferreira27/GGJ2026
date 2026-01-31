@@ -59,7 +59,6 @@ public class Player : MonoBehaviour
 
     private void Move()
     {
-
         if(possessed_object == null) cur_speed = rb.linearVelocity;
 
         float horizontal_input = Input.GetAxisRaw("Horizontal");
