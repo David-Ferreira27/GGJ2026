@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - possessable
+  - door
   layers:
   - Default
   - TransparentFX

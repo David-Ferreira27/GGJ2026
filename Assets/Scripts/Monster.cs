@@ -16,23 +16,27 @@ public class Monster : MonoBehaviour
 	public Vector3 lastSeen;
 	public float rotateTimer = -1f;
 	public Vector3 lastPathPos;
-    public MenuManager menu_manager;
     public int pathPart = 1;
     public float max_dist = 10f;
+    public GameObject menuObject;
+    private MenuManager menu_manager;
+    public bool follow_water = false;
+    public bool pipe_broken = false;
 
 
-	// Start is called once before the first execution of Update after the MonoBehaviour is created
-	void Start()
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
 	{
         Physics2D.queriesHitTriggers = false;
 		rb = GetComponent<Rigidbody2D>();
 		rad = angl * Mathf.Deg2Rad;
+		menu_manager = menuObject.GetComponent<MenuManager>();
 	}
 
 	// Update is called once per frame
 	void FixedUpdate()
 	{
-        if(player.GetComponent<Player>().game_running && !player.GetComponent<Player>().game_paused)
+        if(player.GetComponent<Player>().game_running && !player.GetComponent<Player>().game_paused && pipe_broken)
         {
             rad = angl * Mathf.Deg2Rad;
 
@@ -49,34 +53,23 @@ public class Monster : MonoBehaviour
 		float rayangl = 3f;
 		float offset = 0.15f;
 		RaycastHit2D ray;
-		if (!aggro)
-		{
-			for (float i = 0f; i < nrays; i++)
-			{
-				float rayrad = (angl + rayangl * (i - nrays / 2f)) * Mathf.Deg2Rad;
-				Vector2 d = new Vector2((float)Mathf.Cos(rayrad), (float)Mathf.Sin(rayrad));
-				d.Normalize();
-				ray = Physics2D.Raycast(gameObject.transform.position + new Vector3((float)Mathf.Cos(rad) * offset, (float)Mathf.Sin(rad) * offset, 0f), d, 999f);
-				if (ray.collider != null && ray.collider.gameObject.tag == "Player" && Vector2.Distance(player.transform.position,gameObject.transform.position) < max_dist)
-				{
-					newaggro = true;
-				}
+        for (float i = 0f; i < nrays; i++)
+        {
+            float rayrad = (angl + rayangl * (i - nrays / 2f)) * Mathf.Deg2Rad;
+            Vector2 d = new Vector2((float)Mathf.Cos(rayrad), (float)Mathf.Sin(rayrad));
+            d.Normalize();
+            ray = Physics2D.Raycast(gameObject.transform.position + new Vector3((float)Mathf.Cos(rad) * offset, (float)Mathf.Sin(rad) * offset, 0f), d, 999f);
+            if (ray.collider != null && ray.collider.gameObject.tag == "Player"  && Vector2.Distance(player.transform.position,gameObject.transform.position) < max_dist)
+            {
+                newaggro = true;
+            }
 
-			}
-		}
-		else
-		{
-			Vector2 d = new Vector2((float)Mathf.Cos(rad), (float)Mathf.Sin(rad));
-			d.Normalize();
-			ray = Physics2D.Raycast(gameObject.transform.position + new Vector3((float)Mathf.Cos(rad) * offset, (float)Mathf.Sin(rad) * offset, 0f), d, 999f);
-			if (ray.collider != null && ray.collider.gameObject.tag == "Player")
-			{
-				newaggro = true;
-			}
-			
-		}
+        }
 
-		aggro = newaggro;
+        if (!aggro && newaggro) menu_manager.ActivateAggro();
+        if (aggro && !newaggro) menu_manager.DeactivateAggro();
+
+        aggro = newaggro;
 
 		if (aggro)
 		{
@@ -89,6 +82,7 @@ public class Monster : MonoBehaviour
 	{
 		if(rb.linearVelocity == new Vector2(0, 0) && rotateTimer > 0f)
 		{
+            follow_water = false;
 			angl++;
 			rotateTimer -= Time.deltaTime;
 		}
@@ -113,7 +107,7 @@ public class Monster : MonoBehaviour
 			angl = Mathf.Atan2(d.y, d.x) * Mathf.Rad2Deg;
 		}
 
-		if (aggro)
+		if (aggro || follow_water)
 		{
 			Vector2 d = lastSeen - transform.position;
 			d.Normalize();
@@ -163,8 +157,9 @@ public class Monster : MonoBehaviour
 
         if (collision.CompareTag("Player"))
         {
-            menu_manager.EndGame();
+            menu_manager.EndGameLose();
         }
+        if(collision.CompareTag("door")){collision.gameObject.SetActive(false);}
     }
 
 

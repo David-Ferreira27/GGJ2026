@@ -132,12 +132,16 @@ public class Player : MonoBehaviour
         rb.linearVelocity = Vector2.zero;
         cur_speed = Vector2.zero;
 
+        can_possess_objects.Clear();
     }
 
     public void Despossess()
     {
+        
+        gameObject.GetComponent<CircleCollider2D>().enabled = false;
         gameObject.GetComponent<BoxCollider2D>().enabled = true;
         gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        gameObject.GetComponent<CircleCollider2D>().enabled = true;
 
         Rigidbody2D possessed_object_rb = possessed_object.GetComponent<Rigidbody2D>();
         DecideDirection(possessed_object_rb, 0.5f);

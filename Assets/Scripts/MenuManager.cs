@@ -7,7 +7,10 @@ public class MenuManager : MonoBehaviour
 
     public GameObject start_menu;
     public GameObject pause_menu;
-    public GameObject end_menu;
+    public GameObject end_menu_win;
+    public GameObject end_menu_lose;
+    public GameObject aggro_menu;
+
 
     public GameObject player;
     private Player player_script;
@@ -33,6 +36,7 @@ public class MenuManager : MonoBehaviour
 
     public void StartGame()
     {
+        Time.timeScale = 1f;
         player_script.game_running = true;
         start_menu.SetActive(false);
     }
@@ -51,10 +55,20 @@ public class MenuManager : MonoBehaviour
         pause_menu.SetActive(false);
     }
 
-    public void EndGame()
+    public void EndGameWin()
     {
+        Time.timeScale = 0f;
         player_script.game_running = false;
-        end_menu.SetActive(true);
+        aggro_menu.SetActive(false);
+        end_menu_win.SetActive(true);
+    }
+
+    public void EndGameLose()
+    {
+        Time.timeScale = 0f;
+        player_script.game_running = false;
+        aggro_menu.SetActive(false);
+        end_menu_lose.SetActive(true);
     }
 
     public void RestartGame()
@@ -71,4 +85,15 @@ public class MenuManager : MonoBehaviour
             Application.Quit();
         #endif
     }
+
+    public void ActivateAggro()
+    {
+        aggro_menu.SetActive(true);
+    }
+
+    public void DeactivateAggro()
+    {
+        aggro_menu.SetActive(false);
+    }
+
 }
