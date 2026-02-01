@@ -29,6 +29,7 @@ public class WaterPipe : MonoBehaviour, Possessable
             monster.GetComponent<Monster>().aggro = true;
             monster.GetComponent<Monster>().follow_water = true;
             monster.GetComponent<Monster>().pipe_broken = true;
+            monster.GetComponent<Monster>().rotateTimer = 5f;
             monster.GetComponent<Monster>().lastSeen = new Vector3(0f,0f,0f);
         }
     }

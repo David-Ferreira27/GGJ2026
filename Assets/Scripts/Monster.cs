@@ -83,7 +83,7 @@ public class Monster : MonoBehaviour
 		if(rb.linearVelocity == new Vector2(0, 0) && rotateTimer > 0f)
 		{
             follow_water = false;
-			angl++;
+			angl+=3;
 			rotateTimer -= Time.deltaTime;
 		}
 
@@ -109,6 +109,7 @@ public class Monster : MonoBehaviour
 
 		if (aggro || follow_water)
 		{
+            if(follow_water){}
 			Vector2 d = lastSeen - transform.position;
 			d.Normalize();
 			angl = Mathf.Atan2(d.y, d.x) * Mathf.Rad2Deg;
