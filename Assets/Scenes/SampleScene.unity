@@ -2122,9 +2122,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5c22b03a0ffe2a44af176ad9ff8f2ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monster
-  max_speed: 0.1
+  max_speed: 3
   player: {fileID: 1370533439}
   aggro: 0
+  rotateTimer: -1
+  lastPathPos: {x: 0, y: 0, z: 0}
   menu_manager: {fileID: 1659587616}
 --- !u!58 &1243984246
 CircleCollider2D:
