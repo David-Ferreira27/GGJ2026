@@ -104,6 +104,7 @@ public class Player : MonoBehaviour
         {
             Rigidbody2D possessed_object_rb = possessed_object.GetComponent<Rigidbody2D>();
             possessed_object_rb.linearVelocity = cur_speed;
+            rb.position = possessed_object_rb.position;
         }
         else
         {
@@ -127,12 +128,9 @@ public class Player : MonoBehaviour
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
         possessed_object = can_possess_objects[0];
         possessed_object.tag = "Player";
-        rb.transform.position = new Vector2(-100, 0);
 
         rb.linearVelocity = Vector2.zero;
         cur_speed = Vector2.zero;
-
-        can_possess_objects.Clear();
 
     }
 

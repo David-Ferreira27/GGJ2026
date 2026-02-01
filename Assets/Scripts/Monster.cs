@@ -13,10 +13,12 @@ public class Monster : MonoBehaviour
 	public GameObject player;
 	public bool aggro = false;
 
-	private Vector3 lastSeen;
+	public Vector3 lastSeen;
 	public float rotateTimer = -1f;
 	public Vector3 lastPathPos;
     public MenuManager menu_manager;
+    public int pathPart = 1;
+    public float max_dist = 10f;
 
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -55,7 +57,7 @@ public class Monster : MonoBehaviour
 				Vector2 d = new Vector2((float)Mathf.Cos(rayrad), (float)Mathf.Sin(rayrad));
 				d.Normalize();
 				ray = Physics2D.Raycast(gameObject.transform.position + new Vector3((float)Mathf.Cos(rad) * offset, (float)Mathf.Sin(rad) * offset, 0f), d, 999f);
-				if (ray.collider != null && ray.collider.gameObject.tag == "Player")
+				if (ray.collider != null && ray.collider.gameObject.tag == "Player" && Vector2.Distance(player.transform.position,gameObject.transform.position) < max_dist)
 				{
 					newaggro = true;
 				}
@@ -91,17 +93,23 @@ public class Monster : MonoBehaviour
 			rotateTimer -= Time.deltaTime;
 		}
 
+        Debug.Log(rotateTimer);
+
 		if(rotateTimer < 0f && InPath())
 		{
-			if(angl!=180f && angl!=0f){angl = 0f;}
-			if(gameObject.transform.position.x>-16f){angl=180f;}
-			if(-20f>gameObject.transform.position.x){angl = 0f;}
+            if(pathPart == 1){angl = 180f;}
+            if(pathPart == 2){angl = 0f;}
+            if(pathPart == 3){angl = 90f;}
+            if(pathPart == 4){angl = 270f;}
+            if(pathPart == 1 && -40f>gameObject.transform.position.x){angl = 0f; pathPart = 2;}
+			if(pathPart == 2 && gameObject.transform.position.x > -21f){angl = 90f; pathPart = 3;}
+            if(pathPart == 3 && gameObject.transform.position.y > 13f){angl = 270f; pathPart = 4;}
+            if(pathPart == 4 && gameObject.transform.position.y < 0f){angl = 180f; pathPart = 1;}
 			lastPathPos = gameObject.transform.position;
 		}
 		if(rotateTimer < 0f && !InPath())
 		{
 			Vector2 d = lastPathPos - transform.position;
-			d.Normalize();
 			angl = Mathf.Atan2(d.y, d.x) * Mathf.Rad2Deg;
 		}
 
@@ -120,7 +128,9 @@ public class Monster : MonoBehaviour
 	private void Move()
 	{
 		Vector2 speed = new Vector2(0,0);
-		if(!aggro && (rotateTimer < 0f || Math.Abs(gameObject.transform.position.x - lastSeen.x) > max_speed || Math.Abs(gameObject.transform.position.y - lastSeen.y) > max_speed) || aggro){speed = new Vector2(Mathf.Cos(rad) * max_speed, Mathf.Sin(rad) * max_speed);}
+		if(!aggro && (rotateTimer < 0f || Math.Abs(gameObject.transform.position.x - lastSeen.x) > max_speed*Time.deltaTime || Math.Abs(gameObject.transform.position.y - lastSeen.y) > max_speed*Time.deltaTime) || aggro){
+            speed = new Vector2(Mathf.Cos(rad) * max_speed, Mathf.Sin(rad) * max_speed);
+            }
 
 		rb.linearVelocity = speed;
 
@@ -128,7 +138,16 @@ public class Monster : MonoBehaviour
 
 	private bool InPath()
 	{
-		if(Near(gameObject.transform.position.y,0f,max_speed) && -20f-max_speed<gameObject.transform.position.x && gameObject.transform.position.x<-16f+max_speed){return true;}
+		if((pathPart == 1 || pathPart == 2)
+            && Near(gameObject.transform.position.y,0f,max_speed*Time.deltaTime)
+            && -40f-max_speed*Time.deltaTime<gameObject.transform.position.x
+            && gameObject.transform.position.x<-21f+max_speed*Time.deltaTime)
+            {return true;}
+        if((pathPart == 3 || pathPart == 4) 
+            && Near(gameObject.transform.position.x,-21f,max_speed*Time.deltaTime)
+            && 0f-max_speed*Time.deltaTime<gameObject.transform.position.y
+            && gameObject.transform.position.y<13f+max_speed*Time.deltaTime)
+            {return true;}
 		return false;
 	}
 
